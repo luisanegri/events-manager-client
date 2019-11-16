@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import EventDetails from './EventDetails';
-import { loadEvent, updateEvent, deleteEvent } from '../actions/events';
+import { loadEvent, updateEvent } from '../actions/events';
 
 class EventDetailsContainer extends React.Component {
   componentDidMount() {
@@ -14,11 +14,9 @@ class EventDetailsContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log('map event detail', state);
+  // returning empty array of eventS
+  console.log('map event detail?');
   return { event: state.event };
 };
 
-export default connect(
-  mapStateToProps,
-  { loadEvent }
-)(EventDetailsContainer);
+export default connect(mapStateToProps, { loadEvent })(EventDetailsContainer);
