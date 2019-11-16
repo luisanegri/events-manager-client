@@ -14,6 +14,7 @@ export default function EventsList(props) {
         {props.events.map(event => (
           <li>
             <Link to={`/event/${event.id}`}>{event.name}</Link>
+            <button onClick={() => props.deleteEvent(event.id)}>Delete</button>
           </li>
         ))}
       </ul>

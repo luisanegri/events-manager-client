@@ -3,6 +3,7 @@ import request from 'superagent';
 export const EVENTS_FETCHED = 'EVENTS_FETCHED';
 export const EVENT_CREATE_SUCCESS = 'EVENT_CREATE_SUCCESS';
 export const EVENT_FETCHED = 'EVENT_FETCHED';
+export const EVENT_DELETE_SUCCESS = 'EVENT_DELETE_SUCCESS';
 
 const baseUrl = 'http://localhost:5000';
 
@@ -11,11 +12,9 @@ const eventsFetched = events => ({
   payload: events
 });
 
-// THUNK!!!!!!!!!!!!!
 export const loadEvents = () => (dispatch, getState) => {
   // when the state already contains events, we don't fetch them again
   // if (getState().events) return;
-
   // a GET /events request
   request(`${baseUrl}/event`)
     .then(response => {
@@ -46,15 +45,34 @@ export const loadEventSuccess = event => ({
   payload: event
 });
 
-export const loadEvent = data => dispatch => {
-  console.log('loadEvent', data);
+export const loadEvent = (id, data) => (dispatch, _getState) => {
+  console.log('loadEvent id and data', id, data);
+  // getting id but no data
   request
-    .get(`/event/{id}`)
+    .get(`${baseUrl}/event/${id}`)
     .send(data)
     .then(response => {
-      // not getting anything in response
+      // getting 200 status code but body is null
       console.log('loadEvent response', response);
       dispatch(loadEventSuccess(response.body));
+    })
+    .catch(console.error);
+};
+
+export const deleteEventSuccess = id => {
+  return {
+    type: 'EVENT_DELETE_SUCCESS',
+    payload: id
+  };
+};
+
+export const deleteEvent = id => (dispatch, getState) => {
+  console.log('delete', id);
+  request
+    .delete(`${baseUrl}/event/${id}`)
+    .then(response => {
+      console.log('deleteEvent response', response);
+      dispatch(deleteEventSuccess(response.body));
     })
     .catch(console.error);
 };

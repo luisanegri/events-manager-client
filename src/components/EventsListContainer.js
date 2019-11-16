@@ -1,5 +1,5 @@
 import React from 'react';
-import { loadEvents } from '../actions/events';
+import { loadEvents, deleteEvent } from '../actions/events';
 import { connect } from 'react-redux';
 import EventsList from './EventsList';
 
@@ -9,7 +9,12 @@ class EventsListContainer extends React.Component {
   }
 
   render() {
-    return <EventsList events={this.props.events} />;
+    return (
+      <EventsList
+        events={this.props.events}
+        deleteEvent={this.props.deleteEvent}
+      />
+    );
   }
 }
 
@@ -18,7 +23,6 @@ const mapStateToProps = state => {
   return { events: state.events };
 };
 
-export default connect(
-  mapStateToProps,
-  { loadEvents }
-)(EventsListContainer);
+export default connect(mapStateToProps, { loadEvents, deleteEvent })(
+  EventsListContainer
+);
